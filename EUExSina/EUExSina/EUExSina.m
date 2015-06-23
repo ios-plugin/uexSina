@@ -99,10 +99,10 @@
                 id userId = [ud objectForKey:oauth2SianUserID];
                 id tokenkey = [ud objectForKey:oauth2SinaTokenKey];
                 //回调callback
-                NSString *jsString = [NSString stringWithFormat:@"uexSina.registerCallBack('%@','%@',%d);",userId,tokenkey,UEX_CSUCCESS];
+               // NSString *jsString = [NSString stringWithFormat:@"uexSina.registerCallBack('%@','%@',%d);",userId,tokenkey,UEX_CSUCCESS];
                 //20140901xrg增加uexSina.cbRegister回调方法
                 NSString *jsStringCB = [NSString stringWithFormat:@"uexSina.cbRegisterApp('%@','%@',%d);",userId,tokenkey,UEX_CSUCCESS];
-                [self.meBrwView stringByEvaluatingJavaScriptFromString:jsString];
+                //[self.meBrwView stringByEvaluatingJavaScriptFromString:jsString];
                 [self.meBrwView stringByEvaluatingJavaScriptFromString:jsStringCB];
             }else
             {
@@ -115,7 +115,8 @@
         else
         {
             //回调callback
-            [self jsSuccessWithName:@"uexSina.registerCallBack" opId:0 dataType:1 intData:UEX_CFALSE];
+            //[self jsSuccessWithName:@"uexSina.registerCallBack" opId:0 dataType:1 intData:UEX_CFALSE];
+            [self jsSuccessWithName:@"uexSina.cbRegisterApp" opId:0 dataType:1 intData:UEX_CFALSE];
         }
     }else
     {
@@ -125,7 +126,8 @@
             id userId = [ud objectForKey:oauth2SianUserID];
             id tokenkey = [ud objectForKey:oauth2SinaTokenKey];
             //回调callback
-            NSString *jsString = [NSString stringWithFormat:@"uexSina.registerCallBack('%@','%@',%d);",userId,tokenkey,UEX_CSUCCESS];
+            //NSString *jsString = [NSString stringWithFormat:@"uexSina.registerCallBack('%@','%@',%d);",userId,tokenkey,UEX_CSUCCESS];
+            NSString *jsString = [NSString stringWithFormat:@"uexSina.cbRegisterApp('%@','%@',%d);",userId,tokenkey,UEX_CSUCCESS];
             [self.meBrwView stringByEvaluatingJavaScriptFromString:jsString];
         }else
         {
@@ -259,7 +261,8 @@
         id userId = [ud objectForKey:oauth2SianUserID];
         id tokenkey = [ud objectForKey:oauth2SinaTokenKey];
         //回调callback
-        NSString *jsString = [NSString stringWithFormat:@"uexSina.registerCallBack('%@','%@',%d);",userId,tokenkey,UEX_CSUCCESS];
+        //NSString *jsString = [NSString stringWithFormat:@"uexSina.registerCallBack('%@','%@',%d);",userId,tokenkey,UEX_CSUCCESS];
+        NSString *jsString = [NSString stringWithFormat:@"uexSina.cbRegisterApp('%@','%@',%d);",userId,tokenkey,UEX_CSUCCESS];
         [self.meBrwView stringByEvaluatingJavaScriptFromString:jsString];
         isResignCallBack = NO;
     }

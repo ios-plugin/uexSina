@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexSina" version="3.0.4" build="4">
-        <info>4:增加新浪授权登录</info>
+        uexName="uexSina" version="3.0.5" build="5">
+        <info>5:注册回调方法名统一修改为uexSina.cbRegisterApp</info>
+        <build>4:增加新浪授权登录</build>
         <build>3:取消用户新浪微博对appcan的自动关注</build>
         <build>2:统一回调方法名，统一回调参数</build>
         <build>1:添加uexSina.registerCallBack成功的回调,修复点击分享黑屏的bug</build>
