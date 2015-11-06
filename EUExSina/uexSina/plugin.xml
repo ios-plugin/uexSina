@@ -6,5 +6,6 @@
         <method name="sendTextContent"></method>
         <method name="sendImageContent"></method>
         <method name="cleanUserInfo"></method>
+        <method name="getUserInfo"></method>
 	</plugin>
 </uexplugins>

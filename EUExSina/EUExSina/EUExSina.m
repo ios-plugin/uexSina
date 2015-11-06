@@ -138,7 +138,28 @@
         }
     }
 }
+-(void)getUserInfo:(NSMutableArray*)inArguments{
+    if(inArguments.count <3){
+        return;
+    }
+    NSString *source=inArguments[0];
+    NSString *access_token=inArguments[1];
+    NSString *uid=inArguments[2];
+    NSString *url =[NSString stringWithFormat:@"https://api.weibo.com/2/users/show.json?source=%@&access_token=%@&uid=%@",source,access_token,uid];
+    NSURL *zoneUrl = [NSURL URLWithString:url];
+    NSString *zoneStr = [NSString stringWithContentsOfURL:zoneUrl encoding:NSUTF8StringEncoding error:nil];
+    NSData *data = [zoneStr dataUsingEncoding:NSUTF8StringEncoding];
+    if (data) {
+        NSMutableDictionary *userInfoDict=[NSMutableDictionary alloc];
+        userInfoDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        //NSLog(@"userInfoDict------>>>>%@",userInfoDict);
+        [self cbGetUserInfo:[userInfoDict JSONFragment]];
+    }
+}
 
+- (void)cbGetUserInfo:userInfo{
+    [self jsSuccessWithName:@"uexSina.cbGetUserInfo"opId:0 dataType:UEX_CALLBACK_DATATYPE_JSON strData:userInfo];
+}
 -(void)sendTextContent:(NSMutableArray*)inArguments{
     currentStatus =1;
     NSString *content = [inArguments objectAtIndex:0];
