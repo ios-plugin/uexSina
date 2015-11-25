@@ -8,12 +8,26 @@
 
 #import "EUExBase.h"
 #import "SinaShareController.h"
-@interface EUExSina : EUExBase<SinaShareControllerDelegate>{
+#import "WBHttpRequest.h"
+#import "WeiboSDK.h"
+#import "SinaSingletonClass.h"
+
+@interface EUExSina : EUExBase<WeiboSDKDelegate,SinaShareControllerDelegate,WBHttpRequestDelegate,UIApplicationDelegate,uexSinaCallbackDelegate>{
     SinaShareController *_ssCtrl;
     int currentStatus;
     BOOL isResignCallBack;
 }
+//- (void)cbRegisterApp:(NSString*)uid accessToken:(NSString*)accessToken;
+//- (void)cbLogin:(NSString*)result;
+
 @property(nonatomic,copy)NSString *shareContent;
 @property(nonatomic,copy)NSString *shareImgPath;
 @property(nonatomic,copy)NSString *shareImgDes;
+
+@property(nonatomic,strong)NSString *uid;
+@property(nonatomic,strong)NSString *access_token;
+@property(nonatomic,strong)NSString *appKey;
+@property(nonatomic,strong)NSString *redirectURI;
+@property(nonatomic,assign)BOOL isLogin;
 @end
+
