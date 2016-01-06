@@ -1,33 +1,25 @@
 //
 //  EUExSina.h
-//  WBPlam
+//  EUExSina
 //
-//  Created by AppCan on 13-3-25.
-//  Copyright (c) 2013年 AppCan. All rights reserved.
+//  Created by 陈晓明 on 15/9/9.
+//  Copyright (c) 2015年 陈晓明. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import "EUExBase.h"
-#import "SinaShareController.h"
-#import "WBHttpRequest.h"
 #import "WeiboSDK.h"
-#import "SinaSingletonClass.h"
 
-@interface EUExSina : EUExBase<WeiboSDKDelegate,SinaShareControllerDelegate,WBHttpRequestDelegate,UIApplicationDelegate,uexSinaCallbackDelegate>{
-    SinaShareController *_ssCtrl;
-    int currentStatus;
-    BOOL isResignCallBack;
+
+@interface EUExSina : EUExBase<WeiboSDKDelegate,WBHttpRequestDelegate>{
+    NSString* wbtoken;
+    NSString* wbCurrentUserID;
+    
 }
-//- (void)cbRegisterApp:(NSString*)uid accessToken:(NSString*)accessToken;
-//- (void)cbLogin:(NSString*)result;
 
-@property(nonatomic,copy)NSString *shareContent;
-@property(nonatomic,copy)NSString *shareImgPath;
-@property(nonatomic,copy)NSString *shareImgDes;
+@property (strong, nonatomic) NSString *wbtoken;//当前的token(可以和新的token对比)
+@property (strong, nonatomic) NSString *wbCurrentUserID;
+@property (strong, nonatomic) NSString *wbRefreshToken;//最新的token(用来和原来的token进行对比)
 
-@property(nonatomic,strong)NSString *uid;
-@property(nonatomic,strong)NSString *access_token;
-@property(nonatomic,strong)NSString *appKey;
-@property(nonatomic,strong)NSString *redirectURI;
-@property(nonatomic,assign)BOOL isLogin;
+
 @end
-
