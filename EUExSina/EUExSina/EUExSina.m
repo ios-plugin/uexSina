@@ -13,11 +13,21 @@
 #import "WeiboSDK.h"
 #import "SinaSingletonClass.h"
 
-@implementation EUExSina
+#define CB_GENERATE_SHORT_URL @"uexSina.cbGenerateShortUrl"
+#define REQUEST_TYPE_USER_INFO 1 //返回请求的类型(根据类型判断返回的是什么信息)
+#define REQUEST_TYPE_GENERATE 2
+#define REQUEST_TYPE_LOGOUT 3
+
+@implementation EUExSina{
+
+    NSInteger _requestType;//请求的类型 1-用户信息 2-长链接转短链接
+
+}
 
 -(id)initWithBrwView:(EBrowserView *)eInBrwView{
     if (self=[super initWithBrwView:eInBrwView]) {
         isResignCallBack = NO;
+        _requestType=-1;
     }
     return self;
 }
@@ -296,6 +306,36 @@
 //}
 
 #pragma mark -
+
+#pragma mark 转换链接地址为短地址接口
+
+-(void)generateShortUrl:(NSMutableArray *)inArguments{
+    
+    if (inArguments.count != 1) {
+        return;
+    }
+    
+    NSDictionary *dic = [[inArguments objectAtIndex:0] JSONValue];
+    if (dic == nil || dic.count < 1) {
+        return;
+    }
+    NSString *path = @"https://api.weibo.com/2/short_url/shorten.json";//api的地址
+    NSString *_token = [dic objectForKey:_access_token];//外部传入的token
+    NSString *data = [dic objectForKey:@"url_longs"];//取得地址数组
+    NSArray *arr = [[data JSONFragment]JSONValue];//解析参数传来的地址数组
+    
+    NSMutableString *address = [NSMutableString string];
+    for (NSInteger i = 0; i < arr.count; i++) {
+        [address appendFormat:@"&url_long=%@",arr[i]];//添加到字符串
+    }
+    
+    NSString *urlContent = [NSString stringWithFormat:@"%@?access_token=%@%@",path,_token,address];//请求json字符串
+    [WBHttpRequest requestWithURL:urlContent httpMethod:@"GET" params:nil delegate:self withTag:nil];//请求链接转换
+    
+    _requestType = REQUEST_TYPE_GENERATE;
+    
+}
+
 #pragma mark 新浪微博登陆、登出,获取access_tocken、uid和用户信息++++++++++++++
 -(void)getUserInfo:(NSMutableArray*)inArguments{
     SinaSingletonClass *sinaInfo=[SinaSingletonClass sharedManager];
@@ -398,20 +438,35 @@
 
 - (void)request:(WBHttpRequest *)request didFinishLoadingWithResult:(NSString *)result
 {
-    NSMutableArray *resultVal=[NSMutableArray alloc];
-    resultVal = [result JSONFragmentValue];
-    //NSLog(@"------------%@",[resultVal valueForKey:@"result"]);
-    if([[resultVal valueForKey:@"result"] isEqualToString:@"true"]){
-        SinaSingletonClass *sinaInfo=[SinaSingletonClass sharedManager];
-        sinaInfo.appKey=nil;
-        sinaInfo.access_token=nil;
-        sinaInfo.uid=nil;
-        NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogout != null){uexSina.cbLogout('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,0];
-        [EUtility brwView:meBrwView evaluateScript:cbStr];
-    }
-    else{
-        NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogout != null){uexSina.cbLogout('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,1];
-        [EUtility brwView:meBrwView evaluateScript:cbStr];
+    switch (_requestType) {
+            
+        case REQUEST_TYPE_GENERATE:
+            [self jsSuccessWithName:CB_GENERATE_SHORT_URL opId:0 dataType:UEX_CALLBACK_DATATYPE_JSON strData:[result JSONFragment]];//请求长链接转短链接
+            break;
+            
+        case REQUEST_TYPE_LOGOUT:{
+            
+            NSMutableArray *resultVal=[NSMutableArray alloc];
+            resultVal = [result JSONFragmentValue];
+            //NSLog(@"------------%@",[resultVal valueForKey:@"result"]);
+            if([[resultVal valueForKey:@"result"] isEqualToString:@"true"]){
+                SinaSingletonClass *sinaInfo=[SinaSingletonClass sharedManager];
+                sinaInfo.appKey=nil;
+                sinaInfo.access_token=nil;
+                sinaInfo.uid=nil;
+                NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogout != null){uexSina.cbLogout('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,0];
+                [EUtility brwView:meBrwView evaluateScript:cbStr];
+            }
+            else{
+                NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogout != null){uexSina.cbLogout('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,1];
+                [EUtility brwView:meBrwView evaluateScript:cbStr];
+            }
+            
+        }
+            break;
+            
+        default:
+            break;
     }
 }
 -(void)sendTextContent:(NSMutableArray*)inArguments{
