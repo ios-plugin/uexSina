@@ -7,6 +7,5 @@
         <method name="getUserInfo"></method>
         <method name="login"></method>
         <method name="logout"></method>
-		<method name="generateShortUrl"></method>
 	</plugin>
 </uexplugins>

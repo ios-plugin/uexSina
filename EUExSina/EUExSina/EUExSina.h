@@ -29,5 +29,6 @@
 @property(nonatomic,strong)NSString *appKey;
 @property(nonatomic,strong)NSString *redirectURI;
 @property(nonatomic,assign)BOOL isLogin;
+@property(nonatomic,assign)BOOL RegisterAppResult;
 @end
 
