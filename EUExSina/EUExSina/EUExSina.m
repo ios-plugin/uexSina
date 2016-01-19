@@ -326,7 +326,7 @@
 }
 
 -(void)registerApp:(NSMutableArray*)inArguments{
-    if(inArguments.count<2){
+    if(inArguments.count<3){
         return;
     }
     SinaSingletonClass *sinaInfo=[SinaSingletonClass sharedManager];
@@ -465,8 +465,14 @@
     message.text=[inArguments objectAtIndex:1];
     
     WBImageObject *image = [WBImageObject object];
-    NSString *imgPath=[inArguments objectAtIndex:0];
-    image.imageData = [NSData dataWithContentsOfFile:[self absPath:imgPath]];
+    NSString *imgPath=[[inArguments objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSURL *url;
+    if ([imgPath hasPrefix:@"http"]) {
+        url = [NSURL URLWithString:imgPath];
+    }else{
+        url = [NSURL fileURLWithPath:[self absPath:imgPath]];
+    }
+    image.imageData = [NSData dataWithContentsOfURL:url];
     if (!image.imageData) {
         [self jsSuccessWithName:@"uexSina.cbShare" opId:0 dataType:UEX_CALLBACK_DATATYPE_TEXT strData:@"图片不存在"];
         return;
