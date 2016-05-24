@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexSina" version="3.0.7" build="7">
-        <info>7:添加分享图片可以分享网络图片功能</info>
+        uexName="uexSina" version="3.0.8" build="8">
+        <info>8:更新SDK到3.1.4,支持ivp6</info>
+        <build>7:添加分享图片可以分享网络图片功能</build>
         <build>6:替换SinaSDK，重写授权登陆相关接口；新增login、logout、getUserInfo接口</build>
         <build>5:注册回调方法名统一修改为uexSina.cbRegisterApp</build>
         <build>4:增加新浪授权登录</build>
