@@ -337,7 +337,8 @@
     //[WeiboSDK enableDebugMode:YES];   //打印日志
     
     if(!self.RegisterAppResult){
-        self.RegisterAppResult=[WeiboSDK registerApp:kAppKey];
+        self.RegisterAppResult =[WeiboSDK registerApp:kAppKey];
+        NSLog(@"SDKVersion:%@",[WeiboSDK getSDKVersion]);
     }
     if(self.RegisterAppResult){
         WBAuthorizeRequest *request = [WBAuthorizeRequest request];
