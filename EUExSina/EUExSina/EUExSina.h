@@ -6,7 +6,6 @@
 //  Copyright (c) 2013年 AppCan. All rights reserved.
 //
 
-#import "EUExBase.h"
 #import "SinaShareController.h"
 #import "WBHttpRequest.h"
 #import "WeiboSDK.h"

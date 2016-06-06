@@ -12,16 +12,23 @@
 #import "JSON.h"
 #import "WeiboSDK.h"
 #import "SinaSingletonClass.h"
-
+@interface EUExSina()
+@property(nonatomic,strong)ACJSFunctionRef*funcRegisterApp;
+@property(nonatomic,strong)ACJSFunctionRef*funcLogin;
+@property(nonatomic,strong)ACJSFunctionRef*funcLogout;
+@property(nonatomic,strong)ACJSFunctionRef*funcShare;
+@property(nonatomic,strong)ACJSFunctionRef*funcGetInfo;
+@end
 @implementation EUExSina
 
--(id)initWithBrwView:(EBrowserView *)eInBrwView{
-    if (self=[super initWithBrwView:eInBrwView]) {
-        isResignCallBack = NO;
+- (instancetype)initWithWebViewEngine:(id<AppCanWebViewEngineObject>)engine
+{
+    self = [super initWithWebViewEngine:engine];
+    if (self) {
+         isResignCallBack = NO;
     }
     return self;
 }
-
 //-(void)clean{
 //    self.shareContent = nil;
 //    self.shareImgDes = nil;
@@ -298,9 +305,14 @@
 #pragma mark -
 #pragma mark 新浪微博登陆、登出,获取access_tocken、uid和用户信息++++++++++++++
 -(void)getUserInfo:(NSMutableArray*)inArguments{
+     ACJSFunctionRef *func = JSFunctionArg(inArguments.lastObject);
+    self.funcGetInfo = func;
     SinaSingletonClass *sinaInfo=[SinaSingletonClass sharedManager];
     if(!sinaInfo.appKey||!sinaInfo.access_token||!sinaInfo.uid){
-        [self jsSuccessWithName:@"uexSina.cbGetUserInfo"opId:0 dataType:UEX_CALLBACK_DATATYPE_JSON strData:@"未登录授权获取uid、access_token，获取用户信息失败"];
+        //[self jsSuccessWithName:@"uexSina.cbGetUserInfo"opId:0 dataType:UEX_CALLBACK_DATATYPE_JSON strData:@"未登录授权获取uid、access_token，获取用户信息失败"];
+        [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbGetUserInfo" arguments:ACArgsPack(@0,@1,@"未登录授权获取uid、access_token，获取用户信息失败")];
+        [self.funcGetInfo executeWithArguments:ACArgsPack(@0,@1,@"未登录授权获取uid、access_token，获取用户信息失败")];
+        self.funcGetInfo = nil;
         return;
     }
     NSString *source=sinaInfo.appKey;
@@ -321,11 +333,16 @@
 
 - (void)cbGetUserInfo:userInfo{
     userInfo=[userInfo JSONFragment];
-    NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbGetUserInfo != null){uexSina.cbGetUserInfo('%d','%d',%@);}",0,UEX_CALLBACK_DATATYPE_JSON,userInfo];
-    [EUtility brwView:meBrwView evaluateScript:cbStr];
+    //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbGetUserInfo != null){uexSina.cbGetUserInfo('%d','%d',%@);}",0,UEX_CALLBACK_DATATYPE_JSON,userInfo];
+    //[EUtility brwView:meBrwView evaluateScript:cbStr];
+    [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbGetUserInfo" arguments:ACArgsPack(@0,@1,userInfo)];
+    [self.funcGetInfo executeWithArguments:ACArgsPack(@0,@1,userInfo)];
+    self.funcGetInfo = nil;
 }
 
 -(void)registerApp:(NSMutableArray*)inArguments{
+     ACJSFunctionRef *func = JSFunctionArg(inArguments.lastObject);
+    self.funcRegisterApp = func;
     if(inArguments.count<3){
         return;
     }
@@ -360,18 +377,25 @@
 - (void)cbRegisterApp{
     SinaSingletonClass *sinaInfo=[SinaSingletonClass sharedManager];
     if(sinaInfo.uid && sinaInfo.access_token){
-        NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbRegisterApp != null){uexSina.cbRegisterApp('%@','%@',%d);}",sinaInfo.uid,sinaInfo.access_token,UEX_CSUCCESS];
-        [EUtility brwView:meBrwView evaluateScript:cbStr];
+        //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbRegisterApp != null){uexSina.cbRegisterApp('%@','%@',%d);}",sinaInfo.uid,sinaInfo.access_token,UEX_CSUCCESS];
+        //[EUtility brwView:meBrwView evaluateScript:cbStr];
+         [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbRegisterApp" arguments:ACArgsPack(sinaInfo.uid,sinaInfo.access_token,@0)];
+         [self.funcRegisterApp executeWithArguments:ACArgsPack(sinaInfo.uid,sinaInfo.access_token,@0)];
     }
     else{
-        NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbRegisterApp != null){uexSina.cbRegisterApp('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,UEX_CFAILED];
-        [EUtility brwView:meBrwView evaluateScript:cbStr];
+        //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbRegisterApp != null){uexSina.cbRegisterApp('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,UEX_CFAILED];
+        //[EUtility brwView:meBrwView evaluateScript:cbStr];
+        [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbRegisterApp" arguments:ACArgsPack(@0,@2,@1)];
+        [self.funcRegisterApp executeWithArguments:ACArgsPack(@0,@2,@1)];
     }
+    self.funcRegisterApp = nil;
 }
 -(void)login:(NSMutableArray*)inArguments{
     if(inArguments.count<2){
         return;
     }
+     ACJSFunctionRef *func = JSFunctionArg(inArguments.lastObject);
+    self.funcLogin = func;
     SinaSingletonClass *sinaInfo=[SinaSingletonClass sharedManager];
     sinaInfo.isLogin=YES;
     NSString *kAppKey = [inArguments objectAtIndex:0];
@@ -403,10 +427,15 @@
 
 - (void)cbLogin:(NSString*)result{
     result = [result JSONFragment];
-    NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogin != null){uexSina.cbLogin('%d','%d',%@);}",0,UEX_CALLBACK_DATATYPE_JSON,result];
-    [EUtility brwView:meBrwView evaluateScript:cbStr];
+    //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogin != null){uexSina.cbLogin('%d','%d',%@);}",0,UEX_CALLBACK_DATATYPE_JSON,result];
+    //[EUtility brwView:meBrwView evaluateScript:cbStr];
+     [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbLogin" arguments:ACArgsPack(@0,@1,result)];
+    [self.funcLogin executeWithArguments:ACArgsPack(@0,@1,result)];
+     self.funcLogin = nil;
 }
 -(void)logout:(NSMutableArray*)inArguments{
+     ACJSFunctionRef *func = JSFunctionArg(inArguments.lastObject);
+    self.funcLogout = func;
     SinaSingletonClass *sinaInfo=[SinaSingletonClass sharedManager];
     [WeiboSDK logOutWithToken:sinaInfo.access_token delegate:self withTag:@"user1"];
 }
@@ -422,21 +451,31 @@
         sinaInfo.appKey=nil;
         sinaInfo.access_token=nil;
         sinaInfo.uid=nil;
-        NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogout != null){uexSina.cbLogout('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,0];
-        [EUtility brwView:meBrwView evaluateScript:cbStr];
+        //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogout != null){uexSina.cbLogout('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,0];
+        //[EUtility brwView:meBrwView evaluateScript:cbStr];
+         [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbLogout" arguments:ACArgsPack(@0,@2,@0)];
+        [self.funcLogout executeWithArguments:ACArgsPack(@0,@2,@0)];
     }
     else{
-        NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogout != null){uexSina.cbLogout('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,1];
-        [EUtility brwView:meBrwView evaluateScript:cbStr];
+        //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogout != null){uexSina.cbLogout('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,1];
+        //[EUtility brwView:meBrwView evaluateScript:cbStr];
+        [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbLogout" arguments:ACArgsPack(@0,@2,@1)];
+        [self.funcLogout executeWithArguments:ACArgsPack(@0,@2,@0)];
     }
+    self.funcLogout = nil;
 }
 -(void)sendTextContent:(NSMutableArray*)inArguments{
     if(inArguments.count<1){
         return;
     }
+    ACJSFunctionRef *func = JSFunctionArg(inArguments.lastObject);
+    self.funcShare = func;
     SinaSingletonClass *sinaInfo=[SinaSingletonClass sharedManager];
     if(!sinaInfo.access_token || !self.redirectURI){
-        [self jsSuccessWithName:@"uexSina.cbShare" opId:0 dataType:UEX_CALLBACK_DATATYPE_TEXT intData:1];
+        //[self jsSuccessWithName:@"uexSina.cbShare" opId:0 dataType:UEX_CALLBACK_DATATYPE_TEXT intData:1];
+         [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbShare" arguments:ACArgsPack(@0,@0,@1)];
+        [self.funcShare executeWithArguments:ACArgsPack(@0,@0,@1)];
+        self.funcShare = nil;
         return;
     }
     WBMessageObject *message = [WBMessageObject message];
@@ -457,9 +496,14 @@
     if(inArguments.count<2){
         return;
     }
+    ACJSFunctionRef *func = JSFunctionArg(inArguments.lastObject);
+    self.funcShare = func;
     SinaSingletonClass *sinaInfo=[SinaSingletonClass sharedManager];
     if(!sinaInfo.access_token || !self.redirectURI){
-        [self jsSuccessWithName:@"uexSina.cbShare" opId:0 dataType:UEX_CALLBACK_DATATYPE_TEXT intData:1];
+        //[self jsSuccessWithName:@"uexSina.cbShare" opId:0 dataType:UEX_CALLBACK_DATATYPE_TEXT intData:1];
+        [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbShare" arguments:ACArgsPack(@0,@0,@1)];
+        [self.funcShare executeWithArguments:ACArgsPack(@0,@0,@1)];
+        self.funcShare = nil;
         return;
     }
     WBMessageObject *message = [WBMessageObject message];
@@ -475,7 +519,10 @@
     }
     image.imageData = [NSData dataWithContentsOfURL:url];
     if (!image.imageData) {
-        [self jsSuccessWithName:@"uexSina.cbShare" opId:0 dataType:UEX_CALLBACK_DATATYPE_TEXT strData:@"图片不存在"];
+        //[self jsSuccessWithName:@"uexSina.cbShare" opId:0 dataType:UEX_CALLBACK_DATATYPE_TEXT strData:@"图片不存在"];
+         [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbShare" arguments:ACArgsPack(@0,@0,@"图片不存在")];
+        [self.funcShare executeWithArguments:ACArgsPack(@0,@0,@"图片不存在")];
+        self.funcShare = nil;
         return;
     }
     message.imageObject = image;
@@ -493,8 +540,11 @@
 }
 
 -(void)cbShare:(int)statusCode{
-    NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbShare != null){uexSina.cbShare('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,statusCode];
-    [EUtility brwView:meBrwView evaluateScript:cbStr];
+    //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbShare != null){uexSina.cbShare('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,statusCode];
+    //[EUtility brwView:meBrwView evaluateScript:cbStr];
+     [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbShare" arguments:ACArgsPack(@0,@2,@(statusCode))];
+     [self.funcShare executeWithArguments:ACArgsPack(@0,@2,@(statusCode))];
+    self.funcShare = nil;
 }
 
 +(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
