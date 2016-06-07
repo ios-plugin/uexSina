@@ -311,7 +311,7 @@
     if(!sinaInfo.appKey||!sinaInfo.access_token||!sinaInfo.uid){
         //[self jsSuccessWithName:@"uexSina.cbGetUserInfo"opId:0 dataType:UEX_CALLBACK_DATATYPE_JSON strData:@"未登录授权获取uid、access_token，获取用户信息失败"];
         [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbGetUserInfo" arguments:ACArgsPack(@0,@1,@"未登录授权获取uid、access_token，获取用户信息失败")];
-        [self.funcGetInfo executeWithArguments:ACArgsPack(@0,@1,@"未登录授权获取uid、access_token，获取用户信息失败")];
+        [self.funcGetInfo executeWithArguments:ACArgsPack(@"未登录授权获取uid、access_token，获取用户信息失败")];
         self.funcGetInfo = nil;
         return;
     }
@@ -336,7 +336,7 @@
     //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbGetUserInfo != null){uexSina.cbGetUserInfo('%d','%d',%@);}",0,UEX_CALLBACK_DATATYPE_JSON,userInfo];
     //[EUtility brwView:meBrwView evaluateScript:cbStr];
     [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbGetUserInfo" arguments:ACArgsPack(@0,@1,userInfo)];
-    [self.funcGetInfo executeWithArguments:ACArgsPack(@0,@1,userInfo)];
+    [self.funcGetInfo executeWithArguments:ACArgsPack(userInfo)];
     self.funcGetInfo = nil;
 }
 
@@ -380,13 +380,15 @@
         //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbRegisterApp != null){uexSina.cbRegisterApp('%@','%@',%d);}",sinaInfo.uid,sinaInfo.access_token,UEX_CSUCCESS];
         //[EUtility brwView:meBrwView evaluateScript:cbStr];
          [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbRegisterApp" arguments:ACArgsPack(sinaInfo.uid,sinaInfo.access_token,@0)];
-         [self.funcRegisterApp executeWithArguments:ACArgsPack(sinaInfo.uid,sinaInfo.access_token,@0)];
+        NSDictionary *dic = @{@"":sinaInfo.uid,@"":sinaInfo.access_token,@"code":@0};
+         [self.funcRegisterApp executeWithArguments:ACArgsPack([dic JSONFragment])];
     }
     else{
         //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbRegisterApp != null){uexSina.cbRegisterApp('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,UEX_CFAILED];
         //[EUtility brwView:meBrwView evaluateScript:cbStr];
+         NSDictionary *dic = @{@"code":@1};
         [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbRegisterApp" arguments:ACArgsPack(@0,@2,@1)];
-        [self.funcRegisterApp executeWithArguments:ACArgsPack(@0,@2,@1)];
+        [self.funcRegisterApp executeWithArguments:ACArgsPack([dic JSONFragment])];
     }
     self.funcRegisterApp = nil;
 }
@@ -430,7 +432,7 @@
     //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogin != null){uexSina.cbLogin('%d','%d',%@);}",0,UEX_CALLBACK_DATATYPE_JSON,result];
     //[EUtility brwView:meBrwView evaluateScript:cbStr];
      [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbLogin" arguments:ACArgsPack(@0,@1,result)];
-    [self.funcLogin executeWithArguments:ACArgsPack(@0,@1,result)];
+    [self.funcLogin executeWithArguments:ACArgsPack(result)];
      self.funcLogin = nil;
 }
 -(void)logout:(NSMutableArray*)inArguments{
@@ -454,13 +456,13 @@
         //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogout != null){uexSina.cbLogout('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,0];
         //[EUtility brwView:meBrwView evaluateScript:cbStr];
          [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbLogout" arguments:ACArgsPack(@0,@2,@0)];
-        [self.funcLogout executeWithArguments:ACArgsPack(@0,@2,@0)];
+        [self.funcLogout executeWithArguments:ACArgsPack(@0)];
     }
     else{
         //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogout != null){uexSina.cbLogout('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,1];
         //[EUtility brwView:meBrwView evaluateScript:cbStr];
         [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbLogout" arguments:ACArgsPack(@0,@2,@1)];
-        [self.funcLogout executeWithArguments:ACArgsPack(@0,@2,@0)];
+        [self.funcLogout executeWithArguments:ACArgsPack(@1)];
     }
     self.funcLogout = nil;
 }
@@ -474,7 +476,7 @@
     if(!sinaInfo.access_token || !self.redirectURI){
         //[self jsSuccessWithName:@"uexSina.cbShare" opId:0 dataType:UEX_CALLBACK_DATATYPE_TEXT intData:1];
          [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbShare" arguments:ACArgsPack(@0,@0,@1)];
-        [self.funcShare executeWithArguments:ACArgsPack(@0,@0,@1)];
+        [self.funcShare executeWithArguments:ACArgsPack(@1)];
         self.funcShare = nil;
         return;
     }
@@ -502,7 +504,7 @@
     if(!sinaInfo.access_token || !self.redirectURI){
         //[self jsSuccessWithName:@"uexSina.cbShare" opId:0 dataType:UEX_CALLBACK_DATATYPE_TEXT intData:1];
         [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbShare" arguments:ACArgsPack(@0,@0,@1)];
-        [self.funcShare executeWithArguments:ACArgsPack(@0,@0,@1)];
+        [self.funcShare executeWithArguments:ACArgsPack(@1)];
         self.funcShare = nil;
         return;
     }
@@ -521,7 +523,7 @@
     if (!image.imageData) {
         //[self jsSuccessWithName:@"uexSina.cbShare" opId:0 dataType:UEX_CALLBACK_DATATYPE_TEXT strData:@"图片不存在"];
          [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbShare" arguments:ACArgsPack(@0,@0,@"图片不存在")];
-        [self.funcShare executeWithArguments:ACArgsPack(@0,@0,@"图片不存在")];
+        [self.funcShare executeWithArguments:ACArgsPack(@"图片不存在")];
         self.funcShare = nil;
         return;
     }
@@ -543,7 +545,7 @@
     //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbShare != null){uexSina.cbShare('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,statusCode];
     //[EUtility brwView:meBrwView evaluateScript:cbStr];
      [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbShare" arguments:ACArgsPack(@0,@2,@(statusCode))];
-     [self.funcShare executeWithArguments:ACArgsPack(@0,@2,@(statusCode))];
+     [self.funcShare executeWithArguments:ACArgsPack(@(statusCode))];
     self.funcShare = nil;
 }
 
