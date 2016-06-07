@@ -381,14 +381,14 @@
         //[EUtility brwView:meBrwView evaluateScript:cbStr];
          [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbRegisterApp" arguments:ACArgsPack(sinaInfo.uid,sinaInfo.access_token,@0)];
         NSDictionary *dic = @{@"":sinaInfo.uid,@"":sinaInfo.access_token,@"code":@0};
-         [self.funcRegisterApp executeWithArguments:ACArgsPack([dic JSONFragment])];
+         [self.funcRegisterApp executeWithArguments:ACArgsPack(dic)];
     }
     else{
         //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbRegisterApp != null){uexSina.cbRegisterApp('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,UEX_CFAILED];
         //[EUtility brwView:meBrwView evaluateScript:cbStr];
          NSDictionary *dic = @{@"code":@1};
         [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbRegisterApp" arguments:ACArgsPack(@0,@2,@1)];
-        [self.funcRegisterApp executeWithArguments:ACArgsPack([dic JSONFragment])];
+        [self.funcRegisterApp executeWithArguments:ACArgsPack(dic)];
     }
     self.funcRegisterApp = nil;
 }
