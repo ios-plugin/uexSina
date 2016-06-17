@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		090962101D02A4BB00399AF3 /* AppCanKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0909620F1D02A4BB00399AF3 /* AppCanKit.framework */; };
 		09E6F9B21CF3F5300063CFB9 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09E6F9A51CF3F5300063CFB9 /* libWeiboSDK.a */; };
 		3C06F66E1C03140700537AB0 /* SinaSingletonClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C06F66D1C03140700537AB0 /* SinaSingletonClass.m */; };
 		5A8D1254188FD4210000F38B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8D1253188FD4210000F38B /* Foundation.framework */; };
@@ -34,7 +33,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0909620F1D02A4BB00399AF3 /* AppCanKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppCanKit.framework; sourceTree = "<group>"; };
 		09E6F9A51CF3F5300063CFB9 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
 		09E6F9A61CF3F5300063CFB9 /* WBHttpRequest+WeiboGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboGame.h"; sourceTree = "<group>"; };
 		09E6F9A71CF3F5300063CFB9 /* WBHttpRequest+WeiboShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboShare.h"; sourceTree = "<group>"; };
@@ -55,6 +53,7 @@
 		5A8D1253188FD4210000F38B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5A8D1257188FD4210000F38B /* EUExSina-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EUExSina-Prefix.pch"; sourceTree = "<group>"; };
 		5A8D125A188FD4210000F38B /* EUExSina.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EUExSina.m; sourceTree = "<group>"; };
+		5A8D127A188FD4660000F38B /* EUExBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBase.h; sourceTree = "<group>"; };
 		5A8D127B188FD4660000F38B /* EUExBaseDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBaseDefine.h; sourceTree = "<group>"; };
 		5A8D127C188FD4660000F38B /* EUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUtility.h; sourceTree = "<group>"; };
 		5A8D127E188FD4660000F38B /* SinaShareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinaShareController.h; sourceTree = "<group>"; };
@@ -89,6 +88,7 @@
 		5A8D12A1188FD4660000F38B /* WBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUtil.h; sourceTree = "<group>"; };
 		5A8D12A2188FD4660000F38B /* WBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUtil.m; sourceTree = "<group>"; };
 		5A8D12A4188FD4660000F38B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F7991DF81ADD37FC0047E428 /* EUExBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBase.h; sourceTree = "<group>"; };
 		F7991DF91ADD37FC0047E428 /* EUExBaseDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBaseDefine.h; sourceTree = "<group>"; };
 		F7991DFA1ADD37FC0047E428 /* EUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUtility.h; sourceTree = "<group>"; };
 		F7991DFB1ADD37FC0047E428 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -106,7 +106,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A8D1254188FD4210000F38B /* Foundation.framework in Frameworks */,
-				090962101D02A4BB00399AF3 /* AppCanKit.framework in Frameworks */,
 				09E6F9B21CF3F5300063CFB9 /* libWeiboSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -182,6 +181,7 @@
 		5A8D1279188FD4660000F38B /* engineHeader */ = {
 			isa = PBXGroup;
 			children = (
+				5A8D127A188FD4660000F38B /* EUExBase.h */,
 				5A8D127B188FD4660000F38B /* EUExBaseDefine.h */,
 				5A8D127C188FD4660000F38B /* EUtility.h */,
 			);
@@ -191,7 +191,6 @@
 		5A8D127D188FD4660000F38B /* sourceCode */ = {
 			isa = PBXGroup;
 			children = (
-				0909620F1D02A4BB00399AF3 /* AppCanKit.framework */,
 				09E6F9A41CF3F5300063CFB9 /* libWeiboSDK */,
 				F7991DF71ADD37FC0047E428 /* JSON */,
 				5A8D127E188FD4660000F38B /* SinaShareController.h */,
@@ -275,6 +274,7 @@
 		F7991DF71ADD37FC0047E428 /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				F7991DF81ADD37FC0047E428 /* EUExBase.h */,
 				F7991DF91ADD37FC0047E428 /* EUExBaseDefine.h */,
 				F7991DFA1ADD37FC0047E428 /* EUtility.h */,
 				F7991DFB1ADD37FC0047E428 /* JSON.h */,
@@ -447,11 +447,6 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/uexSina/";
 				DSTROOT = /tmp/EUExSina.dst;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/EUExSina/engineHeader",
-					"$(PROJECT_DIR)/EUExSina/sourceCode",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EUExSina/EUExSina-Prefix.pch";
 				LIBRARY_SEARCH_PATHS = (
@@ -471,11 +466,6 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/uexSina/";
 				DSTROOT = /tmp/EUExSina.dst;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/EUExSina/engineHeader",
-					"$(PROJECT_DIR)/EUExSina/sourceCode",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EUExSina/EUExSina-Prefix.pch";
 				LIBRARY_SEARCH_PATHS = (
