@@ -380,7 +380,7 @@
         //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbRegisterApp != null){uexSina.cbRegisterApp('%@','%@',%d);}",sinaInfo.uid,sinaInfo.access_token,UEX_CSUCCESS];
         //[EUtility brwView:meBrwView evaluateScript:cbStr];
          [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbRegisterApp" arguments:ACArgsPack(sinaInfo.uid,sinaInfo.access_token,@0)];
-        NSDictionary *dic = @{@"":sinaInfo.uid,@"":sinaInfo.access_token,@"code":@0};
+        NSDictionary *dic = @{@"openId":sinaInfo.uid,@"token":sinaInfo.access_token,@"code":@0};
          [self.funcRegisterApp executeWithArguments:ACArgsPack(dic)];
     }
     else{
