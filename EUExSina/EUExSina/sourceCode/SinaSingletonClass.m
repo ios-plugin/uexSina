@@ -48,7 +48,7 @@
         }
         if(self.isLogin){
             if([_delegate respondsToSelector:@selector(cbLogin:)]){
-                [_delegate cbLogin:[response.userInfo JSONFragment]];
+                [_delegate cbLogin:response.userInfo];
             }
         }
         else{

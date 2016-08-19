@@ -326,16 +326,16 @@
         NSMutableDictionary *userInfoDict=[NSMutableDictionary alloc];
         userInfoDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         //NSLog(@"userInfoDict------>>>>%@",userInfoDict);
-        [self cbGetUserInfo:[userInfoDict JSONFragment]];
+        [self cbGetUserInfo:userInfoDict];
     }
     
 }
 
-- (void)cbGetUserInfo:userInfo{
-    userInfo=[userInfo JSONFragment];
+- (void)cbGetUserInfo:(NSDictionary*)userInfo{
+      NSString* userInfoStr =[userInfo JSONFragment];
     //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbGetUserInfo != null){uexSina.cbGetUserInfo('%d','%d',%@);}",0,UEX_CALLBACK_DATATYPE_JSON,userInfo];
     //[EUtility brwView:meBrwView evaluateScript:cbStr];
-    [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbGetUserInfo" arguments:ACArgsPack(@0,@1,userInfo)];
+    [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbGetUserInfo" arguments:ACArgsPack(@0,@1,userInfoStr)];
     [self.funcGetInfo executeWithArguments:ACArgsPack(userInfo)];
     self.funcGetInfo = nil;
 }
@@ -427,12 +427,18 @@
     }
 }
 
-- (void)cbLogin:(NSString*)result{
-    result = [result JSONFragment];
+- (void)cbLogin:(NSDictionary*)result{
+    NSNumber *error = @(1);
+    NSString *resultStr = nil;
+    if (result) {
+        resultStr = [result ac_JSONFragment];
+        error = @(0);
+    }
+    
     //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogin != null){uexSina.cbLogin('%d','%d',%@);}",0,UEX_CALLBACK_DATATYPE_JSON,result];
     //[EUtility brwView:meBrwView evaluateScript:cbStr];
-     [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbLogin" arguments:ACArgsPack(@0,@1,result)];
-    [self.funcLogin executeWithArguments:ACArgsPack(result)];
+     [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbLogin" arguments:ACArgsPack(@0,@1,resultStr)];
+    [self.funcLogin executeWithArguments:ACArgsPack(error,result)];
      self.funcLogin = nil;
 }
 -(void)logout:(NSMutableArray*)inArguments{

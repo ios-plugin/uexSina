@@ -11,7 +11,7 @@
 #import "WeiboSDK.h"
 
 @protocol uexSinaCallbackDelegate<NSObject>
--(void)cbLogin:(NSString *)result;
+-(void)cbLogin:(NSDictionary *)result;
 -(void)cbRegisterApp;
 -(void)cbShare:(int)statusCode;
 
