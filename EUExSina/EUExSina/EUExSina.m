@@ -314,15 +314,25 @@
         NSMutableDictionary *userInfoDict=[NSMutableDictionary alloc];
         userInfoDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         //NSLog(@"userInfoDict------>>>>%@",userInfoDict);
-        [self cbGetUserInfo:[userInfoDict JSONFragment]];
+        [self cbGetUserInfo:userInfoDict];
     }
     
 }
 
+<<<<<<< HEAD
 - (void)cbGetUserInfo:userInfo{
     userInfo=[userInfo JSONFragment];
     NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbGetUserInfo != null){uexSina.cbGetUserInfo('%d','%d',%@);}",0,UEX_CALLBACK_DATATYPE_JSON,userInfo];
     [EUtility brwView:meBrwView evaluateScript:cbStr];
+=======
+- (void)cbGetUserInfo:(NSDictionary*)userInfo{
+      NSString* userInfoStr =[userInfo JSONFragment];
+    //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbGetUserInfo != null){uexSina.cbGetUserInfo('%d','%d',%@);}",0,UEX_CALLBACK_DATATYPE_JSON,userInfo];
+    //[EUtility brwView:meBrwView evaluateScript:cbStr];
+    [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbGetUserInfo" arguments:ACArgsPack(@0,@1,userInfoStr)];
+    [self.funcGetInfo executeWithArguments:ACArgsPack(userInfo)];
+    self.funcGetInfo = nil;
+>>>>>>> origin/4.0+
 }
 
 -(void)registerApp:(NSMutableArray*)inArguments{
@@ -360,8 +370,16 @@
 - (void)cbRegisterApp{
     SinaSingletonClass *sinaInfo=[SinaSingletonClass sharedManager];
     if(sinaInfo.uid && sinaInfo.access_token){
+<<<<<<< HEAD
         NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbRegisterApp != null){uexSina.cbRegisterApp('%@','%@',%d);}",sinaInfo.uid,sinaInfo.access_token,UEX_CSUCCESS];
         [EUtility brwView:meBrwView evaluateScript:cbStr];
+=======
+        //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbRegisterApp != null){uexSina.cbRegisterApp('%@','%@',%d);}",sinaInfo.uid,sinaInfo.access_token,UEX_CSUCCESS];
+        //[EUtility brwView:meBrwView evaluateScript:cbStr];
+         [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbRegisterApp" arguments:ACArgsPack(sinaInfo.uid,sinaInfo.access_token,@0)];
+        NSDictionary *dic = @{@"openId":sinaInfo.uid,@"token":sinaInfo.access_token,@"code":@0};
+         [self.funcRegisterApp executeWithArguments:ACArgsPack(dic)];
+>>>>>>> origin/4.0+
     }
     else{
         NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbRegisterApp != null){uexSina.cbRegisterApp('%d','%d',%d);}",0,UEX_CALLBACK_DATATYPE_INT,UEX_CFAILED];
@@ -401,10 +419,26 @@
     }
 }
 
+<<<<<<< HEAD
 - (void)cbLogin:(NSString*)result{
     result = [result JSONFragment];
     NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogin != null){uexSina.cbLogin('%d','%d',%@);}",0,UEX_CALLBACK_DATATYPE_JSON,result];
     [EUtility brwView:meBrwView evaluateScript:cbStr];
+=======
+- (void)cbLogin:(NSDictionary*)result{
+    NSNumber *error = @(1);
+    NSString *resultStr = nil;
+    if (result) {
+        resultStr = [result ac_JSONFragment];
+        error = @(0);
+    }
+    
+    //NSString *cbStr=[NSString stringWithFormat:@"if(uexSina.cbLogin != null){uexSina.cbLogin('%d','%d',%@);}",0,UEX_CALLBACK_DATATYPE_JSON,result];
+    //[EUtility brwView:meBrwView evaluateScript:cbStr];
+     [self.webViewEngine callbackWithFunctionKeyPath:@"uexSina.cbLogin" arguments:ACArgsPack(@0,@1,resultStr)];
+    [self.funcLogin executeWithArguments:ACArgsPack(error,result)];
+     self.funcLogin = nil;
+>>>>>>> origin/4.0+
 }
 -(void)logout:(NSMutableArray*)inArguments{
     SinaSingletonClass *sinaInfo=[SinaSingletonClass sharedManager];
